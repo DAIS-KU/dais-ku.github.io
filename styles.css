@@ -89,6 +89,30 @@ h1 {
     line-height: 1.2;
 }
 
+.announcement {
+    margin: 16px 0 24px;
+    padding: 12px 16px;
+    border: 1px solid var(--accent-light);
+    background: rgba(167, 193, 168, 0.12);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.announcement-tag {
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+}
+
 .culture-row {
     margin: 4px 0 8px;
 }
