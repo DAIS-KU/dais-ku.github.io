@@ -100,6 +100,14 @@ h1 {
     display: flex;
     align-items: center;
     gap: 10px;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+a.announcement:hover {
+    background: rgba(167, 193, 168, 0.22);
+    border-color: var(--accent);
+    text-decoration: none;
 }
 
 .announcement-tag {
