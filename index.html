@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="/images/svg/rounded_square_logo.svg" type="image/svg+xml">
   <title>DAIS Lab — Korea University</title>
   <meta name="description" content="Data &amp; Adaptive Intelligence Systems Laboratory, Korea University" />
   <link rel="stylesheet" href="/styles.css">
@@ -20,16 +21,30 @@
 
 <body>
 
-  <nav>
-    <a href="/" class="active">Home</a>
-    <a href="/team/">Team</a>
-    <a href="/research/">Research</a>
-    <a href="/join/">Join</a>
-  </nav>
-
   <main>
-    <h1>Data &amp; Adaptive Intelligence Systems Lab</h1>
-    <p class="subtitle">DAIS Lab, Korea University </p>
+    <!-- <header class="site-header">
+      <h1>Data &amp; Adaptive Intelligence Systems Lab</h1>
+      <p class="subtitle">DAIS Lab, Korea University </p>
+
+      <nav>
+        <a href="/" class="active">Home</a>
+        <a href="/team/">Team</a>
+        <a href="/research/">Research</a>
+        <a href="/join/">Join</a>
+      </nav>
+    </header> -->
+
+    <header class="site-header">
+      <h1>Data &amp; Adaptive Intelligence Systems Lab</h1>
+      <p class="subtitle">DAIS Lab, Korea University </p>
+
+      <nav>
+        <a href="/" class="active">Home</a>
+        <a href="/team/">Team</a>
+        <a href="/research/">Research</a>
+        <a href="/join/">Join</a>
+      </nav>
+    </header>
 
     <div class="wave-hero">
       <canvas id="waveCanvas"></canvas>
@@ -38,6 +53,62 @@
       (function () {
         var canvas = document.getElementById('waveCanvas');
         var ctx = canvas.getContext('2d');
+
+        function cssVar(name) {
+          return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        }
+
+        function hexToRgb(hex) {
+          hex = hex.replace('#', '');
+          if (hex.length === 3) {
+            hex = hex.split('').map(function (c) { return c + c; }).join('');
+          }
+          var n = parseInt(hex, 16);
+          return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+        }
+
+        function loadWaveColors() {
+          return {
+            accent: hexToRgb(cssVar('--accent')),
+            accentLight: hexToRgb(cssVar('--accent-light')),
+            accentVivid: hexToRgb(cssVar('--accent-vivid')),
+            mutedLight: hexToRgb(cssVar('--muted-light')),
+            accentPale: hexToRgb(cssVar('--accent-pale')),
+            accentDark: hexToRgb(cssVar('--accent-dark')),
+            highlight: hexToRgb(cssVar('--highlight')),
+            highlightDark: hexToRgb(cssVar('--highlight-dark'))
+          };
+        }
+
+        function rgba(rgb, alpha) {
+          return 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + alpha + ')';
+        }
+
+        function mixRgb(a, b, t) {
+          return [
+            Math.round(a[0] + (b[0] - a[0]) * t),
+            Math.round(a[1] + (b[1] - a[1]) * t),
+            Math.round(a[2] + (b[2] - a[2]) * t)
+          ];
+        }
+
+        function nodeColor(colorMix) {
+          return mixRgb(waveColors.accentPale, waveColors.accentVivid, colorMix);
+        }
+
+        function nodeColorHighlight(colorMix) {
+          return mixRgb(waveColors.accentPale, waveColors.accentVivid, colorMix);
+        }
+
+        function sizeToColorMix(size) {
+          var minSize = 3;
+          var maxSize = 16;
+          var t = (size - minSize) / (maxSize - minSize);
+          t = Math.max(0, Math.min(1, t));
+          return 1 - t;
+        }
+
+        var waveColors = loadWaveColors();
         var NUM = 16;
         var lines = [];
         var particles = [];
@@ -46,7 +117,7 @@
 
         function resize() {
           canvas.width = canvas.parentElement.clientWidth;
-          canvas.height = 150;
+          canvas.height = 200;
           init();
         }
 
@@ -63,21 +134,21 @@
           for (var i = 0; i < NUM; i++) {
             var tt = i / (NUM - 1);
             lines.push({
-              y: 30 + tt * 90,
-              amp1: 15 + Math.random() * 20,
+              y: 70 + tt * 70,
+              amp1: 12 + Math.random() * 18,
               amp2: 8 + Math.random() * 12,
               amp3: 4 + Math.random() * 6,
-              freq1: 0.002 + Math.random() * 0.001,
-              freq2: 0.004 + Math.random() * 0.002,
-              freq3: 0.007 + Math.random() * 0.003,
-              speed1: 0.3 + Math.random() * 0.2,
-              speed2: 0.15 + Math.random() * 0.15,
-              speed3: 0.08 + Math.random() * 0.1,
+              freq1: 0.003 + Math.random() * 0.001,
+              freq2: 0.005 + Math.random() * 0.002,
+              freq3: 0.009 + Math.random() * 0.003,
+              speed1: 0.25 + Math.random() * 0.2,
+              speed2: 0.1 + Math.random() * 0.15,
+              speed3: 0.05 + Math.random() * 0.1,
               phase1: Math.random() * Math.PI * 2,
               phase2: Math.random() * Math.PI * 2,
               phase3: Math.random() * Math.PI * 2,
-              thick: 2.5 - tt * 1.8,
-              alpha: 0.78 - tt * 0.6
+              thick: 2.5 - tt * 1.1,
+              alpha: 0.35 - tt * 0.4
             });
           }
           // Create particles on random lines
@@ -88,16 +159,34 @@
           }
         }
 
+        function randomNodeSize() {
+          var r = Math.random();
+          if (r < 0.2) {
+            return 11 + Math.random() * 1;       
+          }
+          if (r < 0.3) {
+            return 8 + Math.random() * 3;       
+          }
+          if (r < 0.6) {
+            return 4 + Math.random() * 1;    
+          }
+          if (r < 0.7) {
+            return 5 + Math.random() * 2;    
+          }
+          return 7 + Math.random() * 1;          
+        }
+
         function spawnParticle(startX) {
           var li = Math.floor(Math.random() * NUM);
+          var size = randomNodeSize();
           particles.push({
             id: nextParticleId++,
             lineIdx: li,
             x: startX != null ? startX : Math.random() * canvas.width,
-            speed: 0.15 + Math.random() * 0.4,
+            speed: 0.15 + Math.random() * 0.3,
             shape: 'circle',
-            size: 3 + Math.random() * 5,
-            alpha: 0.3 + Math.random() * 0.5,
+            size: size,
+            colorMix: sizeToColorMix(size),
             bobPhase: Math.random() * Math.PI * 2,
             bobAmp: 0, // no bobbing, stay on line
             dying: false,
@@ -128,32 +217,60 @@
               x: p.x, y: py,
               vx: Math.cos(angle) * 0.5,
               vy: Math.sin(angle) * 0.5,
-              size: p.size * 0.3,
-              alpha: p.alpha * 0.5,
+              size: Math.max(1.8, p.size * 0.35),
+              colorMix: p.colorMix,
+              alpha: 0.55,
               life: 1
             });
           }
         }
 
-        canvas.addEventListener('mouseleave', function () { mouseIn = false; });
+        function clearMouse() {
+          mouseIn = false;
+        }
 
-        // Hover over circle particles to burst + ripple
-        canvas.addEventListener('mousemove', function (e) {
+        function updateMouse(e) {
           var r = canvas.getBoundingClientRect();
-          mouseX = e.clientX - r.left;
-          mouseY = e.clientY - r.top;
+          // Map from CSS pixels to the canvas's internal coordinate space so
+          // hover hit-testing lines up with where nodes are actually drawn.
+          var scaleX = r.width ? canvas.width / r.width : 1;
+          var scaleY = r.height ? canvas.height / r.height : 1;
+          mouseX = (e.clientX - r.left) * scaleX;
+          mouseY = (e.clientY - r.top) * scaleY;
           mouseIn = true;
-          for (var i = particles.length - 1; i >= 0; i--) {
+        }
+
+        function checkHoverBurst() {
+          if (!mouseIn) return false;
+          var bestPoint = null;
+          var bestDistSq = Infinity;
+          for (var i = 0; i < particles.length; i++) {
             var p = particles[i];
             if (p.dying) continue;
-            var py = waveY(lines[p.lineIdx], p.x, t);
-            py += rippleDisplace(p.x, py);
+            var l = lines[p.lineIdx];
+            var wy = waveY(l, p.x, t);
+            var py = wy + rippleDisplace(p.x, wy);
             var dx = p.x - mouseX, dy = py - mouseY;
-            if (Math.sqrt(dx * dx + dy * dy) < p.size + 10) {
-              actualBurst(p);
-              break;
+            var distSq = dx * dx + dy * dy;
+            var hitRadius = Math.max(12, p.size + 9);
+            if (distSq < hitRadius * hitRadius && distSq < bestDistSq) {
+              bestDistSq = distSq;
+              bestPoint = p;
             }
           }
+          if (bestPoint) {
+            actualBurst(bestPoint);
+            return true;
+          }
+          return false;
+        }
+
+        // Mouse hover over particles to burst + ripple
+        canvas.addEventListener('mouseleave', clearMouse);
+        canvas.addEventListener('mousemove', function (e) {
+          updateMouse(e);
+          // Burst immediately on mouse movement for classic behavior.
+          checkHoverBurst();
         });
 
         // Ripple distortion — gentle and smooth
@@ -173,14 +290,56 @@
           return total;
         }
 
+        function sampleWaveY(l, x) {
+          var baseY = waveY(l, x, t);
+          return baseY + rippleDisplace(x, baseY);
+        }
+
+        function sampleFillY(l, x) {
+          // Keep fills static so burst ripples only affect wave lines.
+          return waveY(l, x, t);
+        }
+
+        function drawWaveFills() {
+          for (var i = 0; i < lines.length; i++) {
+            var l = lines[i];
+            var tt = i / (lines.length - 1);
+            var minY = canvas.height;
+
+            ctx.beginPath();
+            var y0 = sampleFillY(l, 0);
+            minY = y0;
+            ctx.moveTo(0, y0);
+
+            for (var x = 4; x <= canvas.width; x += 4) {
+              var y = sampleFillY(l, x);
+              if (y < minY) minY = y;
+              ctx.lineTo(x, y);
+            }
+
+            ctx.lineTo(canvas.width, canvas.height);
+            ctx.lineTo(0, canvas.height);
+            ctx.closePath();
+
+            var grad = ctx.createLinearGradient(0, minY, 0, canvas.height);
+            var layerStrength = 0.1 + tt * 0.8;
+            grad.addColorStop(0, rgba(waveColors.accent, 0.07 * layerStrength));
+            grad.addColorStop(1, rgba(waveColors.accent, 0.0 * layerStrength));
+
+            ctx.fillStyle = grad;
+            ctx.fill();
+          }
+        }
+
         function drawParticle(p) {
           if (p.dying) return false; // don't draw dying particles
           var l = lines[p.lineIdx];
           var py = waveY(l, p.x, t);
           py += rippleDisplace(p.x, py);
           var s = p.size;
-          ctx.fillStyle = 'rgba(129,154,145,' + p.alpha + ')';
-          ctx.strokeStyle = 'rgba(129,154,145,' + Math.min(p.alpha + 0.2, 1) + ')';
+          var rgb = (p.size < 7) ? nodeColorHighlight(p.colorMix) : nodeColor(p.colorMix);
+          ctx.fillStyle = rgba(rgb, 1);
+          ctx.strokeStyle = rgba(rgb, 1);
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.arc(p.x, py, s, 0, Math.PI * 2);
@@ -198,7 +357,8 @@
             b.life -= 0.015;
             if (b.life <= 0) { bursts.splice(i, 1); continue; }
             var a = b.alpha * b.life * b.life; // quadratic fade for smoothness
-            ctx.fillStyle = 'rgba(167,193,168,' + a + ')';
+            var burstMix = b.colorMix != null ? b.colorMix : 0.45;
+            ctx.fillStyle = rgba(nodeColor(burstMix), a);
             ctx.beginPath();
             ctx.arc(b.x, b.y, b.size * (0.5 + b.life * 0.5), 0, Math.PI * 2);
             ctx.fill();
@@ -212,7 +372,7 @@
             var fade = rp.alpha * (1 - progress) * (1 - progress);
             ctx.beginPath();
             ctx.arc(rp.x, rp.y, rp.radius, 0, Math.PI * 2);
-            ctx.strokeStyle = 'rgba(167,193,168,' + fade + ')';
+            ctx.strokeStyle = rgba(waveColors.accentLight, fade);
             ctx.lineWidth = 1;
             ctx.stroke();
           }
@@ -231,16 +391,17 @@
             }
           }
 
+          // Gradient fill under wave lines (before strokes)
+          drawWaveFills();
+
           // Draw wave lines
           for (var i = 0; i < lines.length; i++) {
             var l = lines[i];
             ctx.beginPath();
-            ctx.strokeStyle = 'rgba(167,193,168,' + Math.max(l.alpha, 0.04) + ')';
+            ctx.strokeStyle = rgba(waveColors.accentLight, Math.max(l.alpha, 0.04));
             ctx.lineWidth = Math.max(l.thick, 0.3);
             for (var x = 0; x <= canvas.width; x += 3) {
-              var y = waveY(l, x, t);
-              // Ripple distortion on lines
-              y += rippleDisplace(x, y);
+              var y = sampleWaveY(l, x);
               if (x === 0) ctx.moveTo(x, y);
               else ctx.lineTo(x, y);
             }
@@ -249,9 +410,6 @@
 
           // Draw ripple rings
           drawRippleRings();
-
-          // Draw burst fragments
-          drawBursts();
 
           // Update & extract coordinates for particles
           var activePoints = [];
@@ -276,8 +434,10 @@
             var py = wy + rippleDisplace(p.x, wy);
             activePoints.push({x: p.x, y: py, p: p});
           }
+          // Keep bursting responsive even if the cursor is stationary.
+          checkHoverBurst();
 
-          // Draw connections (organic curves as grey solid lines)
+          // Draw connections (straight lines between nearby nodes)
           ctx.setLineDash([]); // solid 
           var maxDist = 110; 
           var nextConnections = {};
@@ -296,22 +456,14 @@
 
               if (dist < maxDist) {
                 nextConnections[key] = true;
-                
+
                 var closeness = 1 - dist / maxDist;
-                var a = closeness * 0.35; 
-                // Exaggerated line thickness: from ultra-thin 0.1px to very bold 3.5px when extremely close
-                ctx.lineWidth = Math.max(0.1, closeness * 3.5);
-                // Greyish tone for clear separation from the green waves
-                ctx.strokeStyle = 'rgba(160,165,165,' + a + ')';
+                var a = Math.min(1.0, closeness * closeness * 0.9);
+                ctx.lineWidth = Math.max(0.6, 0.6 + closeness * closeness * 1.4);
+                ctx.strokeStyle = rgba(waveColors.accentDark, a);
                 ctx.beginPath();
                 ctx.moveTo(p1.x, p1.y);
-                
-                // Calculate curved control point to mimic waves (natural flow)
-                var mx = (p1.x + p2.x) / 2;
-                var my = (p1.y + p2.y) / 2;
-                var curveOffset = dx * 0.15; 
-                
-                ctx.quadraticCurveTo(mx, my + curveOffset, p2.x, p2.y);
+                ctx.lineTo(p2.x, p2.y);
                 ctx.stroke();
               } else {
                 if (activeConnections[key]) {
@@ -327,6 +479,7 @@
                       vx: Math.cos(angle) * 0.4,
                       vy: Math.sin(angle) * 0.4,
                       size: 2.0,
+                      colorMix: 0.45,
                       alpha: 0.3,
                       life: 1
                     });
@@ -344,8 +497,9 @@
           for (var i = 0; i < activePoints.length; i++) {
             var pt = activePoints[i];
             var s = pt.p.size;
-            ctx.fillStyle = 'rgba(129,154,145,' + pt.p.alpha + ')';
-            ctx.strokeStyle = 'rgba(129,154,145,' + Math.min(pt.p.alpha + 0.2, 1) + ')';
+            var rgb = (pt.p.size < 7) ? nodeColorHighlight(pt.p.colorMix) : nodeColor(pt.p.colorMix);
+            ctx.fillStyle = rgba(rgb, 1);
+            ctx.strokeStyle = rgba(rgb, 1);
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.arc(pt.x, pt.y, s, 0, Math.PI * 2);
@@ -353,11 +507,17 @@
             ctx.stroke();
           }
 
+          // Draw burst fragments on top so break effects remain visible.
+          drawBursts();
+
           requestAnimationFrame(draw);
         }
 
         resize();
         window.addEventListener('resize', resize);
+        window.addEventListener('load', function () {
+          waveColors = loadWaveColors();
+        });
         draw();
       })();
     </script>
@@ -458,8 +618,11 @@
   </main>
 
   <footer>
-    <img src="/images/logo/grey@2x.png" alt="DAIS Lab" class="footer-logo">
-    Data &amp; Adaptive Intelligence Systems (DAIS) Laboratory, Korea University
+    © Data &amp; Adaptive Intelligence Systems (DAIS) Laboratory,<br> Korea University
+    <div class="footer-logo-container">
+      <img src="/images/logo/grey@2x.png" alt="DAIS Lab" class="footer-logo">
+      <img src="/images/logo/ku_grey.png" alt="Korea University" class="footer-school-logo">
+    </div>
   </footer>
 
 </body>
