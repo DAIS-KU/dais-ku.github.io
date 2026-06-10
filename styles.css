@@ -136,9 +136,9 @@ nav a.active {
     background: linear-gradient(
         180deg,
         transparent,
-        color-mix(in srgb, var(--accent-light) 60%, transparent)
+        color-mix(in srgb, var(--accent-light) 35%, transparent)
     );
-    border-bottom-color: var(--accent-light);
+    border-bottom-color: var(--accent-pale);
     border-bottom-width: 2px;
     color: var(--bg);
 }
