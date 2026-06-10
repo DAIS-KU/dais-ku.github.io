@@ -7,6 +7,7 @@ permalink: /research/
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="/images/svg/rounded_square_logo.svg" type="image/svg+xml">
   <title>Research — DAIS Lab</title>
   <meta name="description"
     content="Research topics and publications from DAIS Lab at Korea University, covering data mining, time series, graph mining, tabular learning, and adaptive AI systems." />
@@ -23,22 +24,25 @@ permalink: /research/
 </head>
 
 <body>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/team/">Team</a>
-    <a href="/research/" class="active">Research</a>
-    <a href="/join/">Join</a>
-  </nav>
   <main>
-    <h1>Data &amp; Adaptive Intelligence Systems Lab</h1>
-    <p class="subtitle">DAIS Lab, Korea University</p>
+    <header class="site-header">
+      <h1>Data &amp; Adaptive Intelligence Systems Lab</h1>
+      <p class="subtitle">DAIS Lab, Korea University</p>
+
+      <nav>
+        <a href="/">Home</a>
+        <a href="/team/">Team</a>
+        <a href="/research/" class="active">Research</a>
+        <a href="/join/">Join</a>
+      </nav>
+    </header>
 
     <h2>Research Area</h2>
     <p>We are interested in broad topics in Data Science (DS) and Artificial Intelligence (AI). We identify real-world
       challenges with significant practical impacts and address them through DS/AI methodologies by leveraging
       {Evolving, (Un)structured data} &times; {Foundation models} &times; {Human-curated knowledge}.</p>
     <div class="research-grid">
-      <div class="research-card">
+      <div class="research-card research-card--evolving">
         <h3>Evolving Data</h3>
         <ul>
           <li class="topic-filter" data-venues="KDD24,WWW24,KDD22,SIGMOD21,KDD20,VLDB19">Anomaly &amp; drift detection
@@ -49,7 +53,7 @@ permalink: /research/
             <span class="venue-tag">KDD26, SIGIR23, WWW23, MiLeTS19, ICDE19</span></li>
         </ul>
       </div>
-      <div class="research-card">
+      <div class="research-card research-card--unstructured">
         <h3>(Un)structured Data</h3>
         <ul>
           <li class="topic-filter" data-venues="SIGMOD26,WSDM26,CIKM24">Graph &amp; network mining <span
@@ -60,7 +64,7 @@ permalink: /research/
               class="venue-tag">ICML26, EMNLP25, SIGIR25</span></li>
         </ul>
       </div>
-      <div class="research-card">
+      <div class="research-card research-card--foundation">
         <h3>Foundation Models</h3>
         <ul>
           <li class="topic-filter" data-venues="WSDM26,EMNLP25,SIGIR25">Pretraining &amp; feature engineering <span
@@ -71,7 +75,7 @@ permalink: /research/
               class="venue-tag">KDD26, ICML26, ACL26, SIGIR26</span></li>
         </ul>
       </div>
-      <div class="research-card">
+      <div class="research-card research-card--knowledge">
         <h3>Human-curated Knowledge</h3>
         <ul>
           <li class="topic-filter" data-venues="NC26,ACL26,MUDY,ACL23,EMNLP22,WWW22">Taxonomy &amp; topic discovery
@@ -382,8 +386,11 @@ permalink: /research/
     </ol>
   </main>
   <footer>
-    <img src="/images/logo/grey@2x.png" alt="DAIS Lab" class="footer-logo">
-    Data &amp; Adaptive Intelligence Systems (DAIS) Laboratory, Korea University
+    © Data &amp; Adaptive Intelligence Systems (DAIS) Laboratory,<br> Korea University
+    <div class="footer-logo-container">
+      <img src="/images/logo/grey@2x.png" alt="DAIS Lab" class="footer-logo">
+      <img src="/images/logo/ku_grey.png" alt="Korea University" class="footer-school-logo">
+    </div>
   </footer>
   <script>
     (function () {
@@ -424,7 +431,7 @@ permalink: /research/
 
       function clearFilter() {
         activeEl = null;
-        document.querySelectorAll('.active').forEach(function (e) { e.classList.remove('active'); });
+        document.querySelectorAll('.topic-filter.active').forEach(function (e) { e.classList.remove('active'); });
         document.querySelectorAll('.card-active').forEach(function (e) { e.classList.remove('card-active'); });
         pubs.forEach(function (p) { p.classList.remove('pub-hidden'); });
         filterLabel.textContent = '';
