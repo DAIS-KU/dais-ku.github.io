@@ -502,6 +502,10 @@ a:hover {
     line-height: 2.0;
 }
 
+.member-card .name a {
+    text-decoration: underline;
+}
+
 .member-card .role {
     color: var(--muted);
     font-size: 0.82rem;
