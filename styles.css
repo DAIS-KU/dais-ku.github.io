@@ -488,12 +488,26 @@ a:hover {
     display: block;
 }
 
+.member-photo-placeholder {
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
 .member-card img[src*="hyunwoong_lim"] {
     object-fit: contain;
 }
 
 .member-card img[src*="myeongchun_kim"] {
     object-position: center 40%;
+}
+
+.member-card img[src*="seungwon_shin"],
+.member-card img[src*="changwoo_jeon"] {
+    object-fit: contain;
 }
 
 .member-card .name {
