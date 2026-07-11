@@ -497,6 +497,18 @@ a:hover {
     margin-bottom: 8px;
 }
 
+.member-photo-frame {
+    aspect-ratio: 1;
+    background: #fff;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.member-photo-frame img {
+    margin-bottom: 0;
+}
+
 .member-card img[src*="hyunwoong_lim"] {
     object-fit: contain;
 }
@@ -506,8 +518,14 @@ a:hover {
 }
 
 .member-card img[src*="seungwon_shin"],
-.member-card img[src*="changwoo_jeon"] {
+.member-card img[src*="changwoo_jeon"],
+.member-card img[src*="minhyeong_lee"] {
     object-fit: contain;
+}
+
+.member-card img[src*="minhyeong_lee"] {
+    transform: scale(1.08);
+    transform-origin: center top;
 }
 
 .member-card .name {
