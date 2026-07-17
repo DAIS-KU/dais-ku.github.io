@@ -925,6 +925,10 @@ footer {
     max-width: 800px;
 }
 
+.pi-page > h1 {
+    color: var(--text);
+}
+
 .pi-profile {
     display: flex;
     justify-content: space-between;
