@@ -552,18 +552,79 @@ a:hover {
 
 /* ---- Research grid ---- */
 .research-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
     margin-top: 16px;
 }
 
-@media (max-width: 600px) {
-    .research-grid {
-        grid-template-columns: 1fr;
-    }
+.research-pillars {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
+    grid-template-rows: auto 24px auto;
 }
 
+.research-card--evolving {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.research-card--unstructured {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+.research-card--foundation {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.research-card--knowledge {
+    grid-column: 3;
+    grid-row: 3;
+}
+
+.research-pillar-plus {
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.research-pillar-plus--desktop {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    width: 24px;
+    height: 24px;
+}
+
+.research-pillar-plus--mobile {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .research-pillars {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+    }
+
+    .research-pillars .research-card {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    .research-pillar-plus--desktop {
+        display: none;
+    }
+
+    .research-pillar-plus--mobile {
+        position: relative;
+        isolation: isolate;
+        display: flex;
+        height: 28px;
+    }
+
+}
 .research-card {
     position: relative;
     overflow: hidden;
@@ -671,6 +732,114 @@ a:hover {
     color: var(--accent-dark);
 }
 
+.research-applications {
+    position: relative;
+    margin-top: 22px;
+    padding: 18px 20px 20px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--surface) 55%, #fff);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.research-applications::before {
+    content: "";
+    position: absolute;
+    left: 35%;
+    right: 35%;
+    top: -12px;
+    height: 1px;
+    background: color-mix(in srgb, var(--accent) 35%, var(--border));
+}
+
+.research-applications::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -12px;
+    width: 1px;
+    height: 12px;
+    background: color-mix(in srgb, var(--accent) 35%, var(--border));
+}
+.research-applications-heading {
+    text-align: center;
+}
+
+.research-applications-kicker {
+    display: block;
+    margin-bottom: 2px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.research-applications h3 {
+    margin: 0 0 12px;
+    color: var(--text-secondary);
+    font-size: 1.03rem;
+}
+
+.research-partner-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 18px;
+}
+
+.research-partner-sector {
+    padding: 7px 10px;
+    border-left: 2px solid var(--border);
+}
+
+.research-partner-sector summary {
+    position: relative;
+    padding-right: 18px;
+    color: var(--text-secondary);
+    font-size: 0.87rem;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+}
+
+.research-partner-sector summary::-webkit-details-marker {
+    display: none;
+}
+
+.research-partner-sector summary::after {
+    content: "+";
+    position: absolute;
+    right: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1;
+}
+
+.research-partner-sector[open] summary::after {
+    content: "-";
+}
+
+.research-partner-sector p {
+    margin: 6px 0 0;
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    line-height: 1.35;
+}
+
+.research-partner-sector span:not(:last-child)::after {
+    content: " · ";
+    color: var(--muted-light);
+}
+
+@media (max-width: 600px) {
+    .research-applications::before {
+        display: none;
+    }
+
+    .research-partner-list {
+        grid-template-columns: 1fr;
+    }
+}
 /* ---- Publication list ---- */
 .pub-list {
     padding: 0 0 0 32px;
