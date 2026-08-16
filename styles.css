@@ -54,6 +54,19 @@
     box-sizing: border-box;
 }
 
+html,
+body {
+    overflow-x: clip;
+    width: 100%;
+}
+
+@supports not (overflow-x: clip) {
+    html,
+    body {
+        overflow-x: hidden;
+    }
+}
+
 body {
     min-height: 100vh;
     display: flex;
@@ -68,9 +81,18 @@ body {
 
 .site-header {
     background: var(--accent);
-    margin: -42px calc(50% - 50vw) 42px;
-    padding: 42px calc(50vw - 50% + 24px) 0;
+    margin: -42px -24px 42px;
+    padding: 42px 24px 0;
     /* border-bottom: 1px solid color-mix(in srgb, var(--accent-light) 50%, transparent); */
+}
+
+@media (min-width: 801px) {
+    .site-header {
+        margin-left: calc((800px - 100vw) / 2 - 24px);
+        margin-right: calc((800px - 100vw) / 2 - 24px);
+        padding-left: calc((100vw - 800px) / 2 + 24px);
+        padding-right: calc((100vw - 800px) / 2 + 24px);
+    }
 }
 
 .site-header nav {
