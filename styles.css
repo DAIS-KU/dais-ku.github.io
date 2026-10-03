@@ -893,11 +893,22 @@ a:hover {
     margin-top: 2px;
 }
 
+.pub-authors strong {
+    font-weight: 600;
+    color: inherit;
+}
+
 .pub-venue {
     font-size: 0.8rem;
     color: var(--muted);
     margin-top: 2px;
     font-style: italic;
+}
+
+.pub-collaboration {
+    font-size: 0.76rem;
+    color: var(--muted);
+    margin-top: 2px;
 }
 
 .badge-links a {
