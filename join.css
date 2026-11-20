@@ -1,0 +1,43 @@
+.join-layout {
+    position: relative;
+}
+
+.join-sidebar {
+    float: right;
+    width: 190px;
+    margin: 0 0 24px 32px;
+}
+
+.join-toc {
+    position: static;
+}
+
+.join-layout > #culture,
+.join-layout > .culture-row {
+    display: flow-root;
+}
+
+.join-layout > #roles {
+    clear: both;
+}
+
+.join-layout h2[id] {
+    scroll-margin-top: 24px;
+}
+
+@media (max-width: 700px) {
+    .join-sidebar {
+        float: none;
+        width: auto;
+        margin: 0 0 24px;
+    }
+
+    .join-toc {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        border-left: none;
+        padding-left: 0;
+    }
+}
